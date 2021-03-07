@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../constants.dart';
+
 import '../dimensions.dart';
 import 'dart:math';
+import '../Components/Productcard.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -37,70 +38,15 @@ class _HomePageState extends State<HomePage> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
-        itemCount: products.length,
+        itemCount: 15,
         itemBuilder: (context, index){
           product = products[_random.nextInt(products.length)];
-          return Container(
-            constraints: BoxConstraints(maxHeight: Dimensions.boxHeight * 30,maxWidth: Dimensions.boxHeight * 30),
-            width: Dimensions.boxHeight * 27,
-            height: Dimensions.boxHeight * 30,
-            child: Card(
-                elevation: 3.0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(top: 7.0),
-                      constraints: BoxConstraints(maxHeight: Dimensions.boxHeight * 30,maxWidth: Dimensions.boxHeight * 15),
-                      width: Dimensions.boxHeight * 30,
-                      height: Dimensions.boxHeight * 17,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(Dimensions.boxHeight ),
-                        child: Image(
-                          image: NetworkImage('$domain/spkct/media/front_pic/${product['FrontPic']}'),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height:5.0 ),
-                    Flexible(
-                      fit: FlexFit.tight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 0.0,horizontal: 8.0),
-                        child: Center(
-                          child: Text(
-                            product['product_name'],
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Colors.pink[900],
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0,bottom: 20.0) ,
-                      child: Text(
-                        "Rs. ${product['Price']}",
-                        style: TextStyle(
-                            letterSpacing: 1.0,
-                            color: Colors.pink[900],
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                    )
-                  ],
-                )
-            ),
-          );
+          return ProductCardComponent(product:product);
         },
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     Dimensions(context);
@@ -111,6 +57,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: (){},
           child: Icon(
             Icons.menu,
+            color: Colors.white,
           ),
         ),
         title: Row(
@@ -131,11 +78,11 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         ],
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: Container(
-          height: 40.0,
-          margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: Container(
+            height: 40.0,
+            margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
             //padding: const EdgeInsets.only(top:10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -180,36 +127,36 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             SizedBox(height: 10.0),
             Container(
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  height: 200.0,
-                  initialPage: 1,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastLinearToSlowEaseIn,
-                  enlargeCenterPage: true,
-                ),
-                items: imageurls.map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 200.0,
+                    initialPage: 1,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayCurve: Curves.fastLinearToSlowEaseIn,
+                    enlargeCenterPage: true,
+                  ),
+                  items: imageurls.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
                           width: MediaQuery.of(context).size.width,
                           margin: EdgeInsets.symmetric(horizontal: 2.0),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(25),
                             child: FittedBox(
                               child: Image(
-                                image: AssetImage(i)
+                                  image: AssetImage(i)
                               ),
                               fit: BoxFit.fill,
                             ),
                           ),
-                      );
-                    },
-                  );
-                }).toList(),
-              )
+                        );
+                      },
+                    );
+                  }).toList(),
+                )
             ),
             SizedBox(height: 20.0),
             ProductCard(),
@@ -217,10 +164,10 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: <Widget>[
                 Container(
-                  constraints: BoxConstraints(maxHeight: Dimensions.boxHeight * 10,maxWidth: Dimensions.boxHeight * 60),
+                  constraints: BoxConstraints(maxHeight: Dimensions.boxHeight * 10,maxWidth: Dimensions.boxWidth * 100),
                   padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                   height: Dimensions.boxHeight * 10,
-                  width: Dimensions.boxHeight * 60,
+                  width: Dimensions.boxWidth * 100,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: categories.length,

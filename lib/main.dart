@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'Pages/Homepage.dart';
+import 'Pages/Productpage.dart';
 import 'constants.dart';
 import 'package:http/http.dart';
 
@@ -17,7 +18,8 @@ void main() => runApp(MaterialApp(
   //initialRoute: '/home',
   routes:{
     '/' : (context) => Loading(),
-    '/home' : (context) => HomePage()
+    '/home' : (context) => HomePage(),
+    '/Product_page': (context) => ProductPage(),
   }
 ));
 
@@ -28,8 +30,7 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   void getProducts() async {
-    Response response = await get('$domain/spkct/product_list/');
-    //print(response.body);
+    Response response = await get('$domain/product_list/');
     List<dynamic> data = jsonDecode(response.body);
     Navigator.pushReplacementNamed(context, '/home', arguments: data);
   }
