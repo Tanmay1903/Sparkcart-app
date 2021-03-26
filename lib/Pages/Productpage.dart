@@ -6,9 +6,7 @@ import 'package:sparkcart/Components/AppBarComponent.dart';
 import 'package:sparkcart/Components/ReviewCard.dart';
 import 'package:sparkcart/Components/CustomDivider.dart';
 import 'package:sparkcart/Components/AllReview.dart';
-import 'package:sparkcart/Components/SentimentAnalysisPopUp.dart';
 import 'package:sparkcart/Pages/ProductDetail.dart';
-import 'package:sparkcart/Pages/SentimentAnalysisPage.dart';
 import '../constants.dart';
 import '../ApiCalls/getReview.dart';
 import '../dimensions.dart';
@@ -32,9 +30,6 @@ class _ProductPageState extends State<ProductPage> {
     response = await get('$domain/sentimentflipkart/$id');
     flipkart = jsonDecode(response.body);
     Navigator.pushNamed(context, '/sentiment_analysis', arguments: {'Amazon': amazon['Amazon'], 'Flipkart': flipkart['Flipkart']});
-  }
-  Widget _buildPopUpDialog(BuildContext context,int id){
-    return SentimentAnalysisPopUp(context,id);
   }
 
   @override
@@ -236,10 +231,6 @@ class _ProductPageState extends State<ProductPage> {
                     backgroundColor: Colors.pink[800],
                     onPressed: (){
                       getAnalysis(product['Productid']);
-//                      showDialog(
-//                        context: context,
-//                        builder: (BuildContext context) => _buildPopUpDialog(context,product['Productid']),
-//                      );
                     },
                     label: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50.0),
