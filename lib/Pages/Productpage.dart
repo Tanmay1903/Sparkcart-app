@@ -2,13 +2,18 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:sparkcart/Components/AppBarComponent.dart';
 import 'package:sparkcart/Components/ReviewCard.dart';
 import 'package:sparkcart/Components/CustomDivider.dart';
 import 'package:sparkcart/Components/AllReview.dart';
+import 'package:sparkcart/Components/SentimentAnalysisPopUp.dart';
 import 'package:sparkcart/Pages/ProductDetail.dart';
+import 'package:sparkcart/Pages/SentimentAnalysisPage.dart';
 import '../constants.dart';
 import '../ApiCalls/getReview.dart';
 import '../dimensions.dart';
+import 'dart:convert';
+import 'package:http/http.dart';
 
 class ProductPage extends StatefulWidget {
   @override
@@ -18,6 +23,19 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   var isFav = false;
   Future<dynamic> data ;
+  void getAnalysis(int id) async {
+    Response response;
+    Map<String,dynamic> amazon;
+    Map<String,dynamic> flipkart;
+    response = await get('$domain/sentimentamazon/$id');
+    amazon = jsonDecode(response.body);
+    response = await get('$domain/sentimentflipkart/$id');
+    flipkart = jsonDecode(response.body);
+    Navigator.pushNamed(context, '/sentiment_analysis', arguments: {'Amazon': amazon['Amazon'], 'Flipkart': flipkart['Flipkart']});
+  }
+  Widget _buildPopUpDialog(BuildContext context,int id){
+    return SentimentAnalysisPopUp(context,id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +46,7 @@ class _ProductPageState extends State<ProductPage> {
     var images = ["$domain/media/front_pic/${product['FrontPic']}",
       "$domain/media/back_pic/${product['BackPic']}"];
     return Scaffold(
-      appBar: AppBar(
-          actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.mic),
-              onPressed: (){},
-            ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0.0,0.0,10.0,0.0),
-            child: IconButton(
-              onPressed: (){},
-              icon: Icon(Icons.shopping_cart)
-              ),
-           )
-        ]
-      ),
+      appBar: AppBarComponent(),
       body: SafeArea(
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -86,8 +90,8 @@ class _ProductPageState extends State<ProductPage> {
                       )
                   ),
                     Positioned(
-                      top: 20.0,
-                      left: 340.0,
+                      top: Dimensions.boxHeight*4,
+                      left: Dimensions.boxWidth*83,
                       child: FloatingActionButton(
                         heroTag: "btn1",
                         elevation: 10.0,
@@ -105,8 +109,8 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                     ),
                     Positioned(
-                      top: 90.0,
-                      left: 340.0,
+                      top: Dimensions.boxHeight*14,
+                      left: Dimensions.boxWidth*83,
                       child: FloatingActionButton(
                         heroTag: "btn2",
                         elevation: 10.0,
@@ -230,6 +234,13 @@ class _ProductPageState extends State<ProductPage> {
                     elevation: 7.0,
                     isExtended: true,
                     backgroundColor: Colors.pink[800],
+                    onPressed: (){
+                      getAnalysis(product['Productid']);
+//                      showDialog(
+//                        context: context,
+//                        builder: (BuildContext context) => _buildPopUpDialog(context,product['Productid']),
+//                      );
+                    },
                     label: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50.0),
                       child: Text(

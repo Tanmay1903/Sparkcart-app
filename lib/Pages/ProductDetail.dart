@@ -3,7 +3,7 @@ import 'package:sparkcart/Components/CustomDivider.dart';
 import 'package:sparkcart/Components/Description.dart';
 import 'package:sparkcart/Components/Specification.dart';
 import 'package:sparkcart/Components/MoreInfo.dart';
-
+import 'package:sparkcart/Components/AppBarComponent.dart';
 class ProductDetail extends StatefulWidget {
   final Map product;
   ProductDetail({this.product});
@@ -35,21 +35,7 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.mic),
-                onPressed: (){},
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0,0.0,10.0,0.0),
-                child: IconButton(
-                    onPressed: (){},
-                    icon: Icon(Icons.shopping_cart)
-                ),
-              )
-            ]
-        ),
+        appBar: AppBarComponent(),
         body:Column(
           children: <Widget>[
             Container(

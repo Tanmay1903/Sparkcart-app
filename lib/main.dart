@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sparkcart/Pages/SentimentAnalysisPage.dart';
 import 'Pages/Homepage.dart';
 import 'Pages/Productpage.dart';
 import 'constants.dart';
@@ -20,6 +21,7 @@ void main() => runApp(MaterialApp(
     '/' : (context) => Loading(),
     '/home' : (context) => HomePage(),
     '/Product_page': (context) => ProductPage(),
+    '/sentiment_analysis': (context) => SentimentAnalysis(),
   }
 ));
 
