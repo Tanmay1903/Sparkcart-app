@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sparkcart/Pages/LoginPage.dart';
 import 'package:sparkcart/Pages/SentimentAnalysisPage.dart';
 import 'Pages/Homepage.dart';
 import 'Pages/Productpage.dart';
 import 'constants.dart';
 import 'package:http/http.dart';
+import 'Pages/ProfilePage.dart';
 
 void main() => runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -20,7 +22,9 @@ void main() => runApp(MaterialApp(
   routes:{
     '/' : (context) => Loading(),
     '/home' : (context) => HomePage(),
+    '/login': (context) => LoginPage(),
     '/Product_page': (context) => ProductPage(),
+    '/profile': (context) => ProfilePage(),
     '/sentiment_analysis': (context) => SentimentAnalysis(),
   }
 ));

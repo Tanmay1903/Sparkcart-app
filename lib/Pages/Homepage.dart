@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:sparkcart/Components/Drawer.dart';
+import 'package:sparkcart/Pages/ProfilePage.dart';
 
 import '../dimensions.dart';
 import 'dart:math';
@@ -29,6 +31,11 @@ class _HomePageState extends State<HomePage> {
   ];
   final _random = new Random();
   dynamic product;
+  void onItemTapped(int index){
+    if (index == 2){
+      Navigator.pushNamed(context, '/profile');
+    }
+  }
   Widget ProductCard() {
     return Container(
       constraints: BoxConstraints(maxHeight: Dimensions.boxHeight * 30,maxWidth: Dimensions.boxHeight * 60),
@@ -52,19 +59,9 @@ class _HomePageState extends State<HomePage> {
     Dimensions(context);
     products = ModalRoute.of(context).settings.arguments;
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: AppBar(
-        leading: FlatButton(
-          onPressed: (){},
-          child: Icon(
-            Icons.menu,
-            color: Colors.white,
-          ),
-        ),
-        title: Row(
-          children: <Widget>[
-            Text('Sparkcart'),
-          ],
-        ),
+        title: Text('Sparkcart'),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.mic),
@@ -200,18 +197,24 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        onTap: onItemTapped ,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
+            // ignore: deprecated_member_use
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
           icon: Icon(Icons.favorite),
+          // ignore: deprecated_member_use
           title: Text('Wishlist'),
           ),
           BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          title: Text('Profile'),
+          // ignore: deprecated_member_use
+          title: InkWell(
+              child: Text('Profile')
+          ),
           )
         ],
         selectedItemColor: Colors.pink[800],

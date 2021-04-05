@@ -29,7 +29,35 @@ class _ProductPageState extends State<ProductPage> {
     amazon = jsonDecode(response.body);
     response = await get('$domain/sentimentflipkart/$id');
     flipkart = jsonDecode(response.body);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => _buildPopUpDialog(context),
+    );
+    await Future.delayed(Duration(seconds: 5));
+    Navigator.of(context).pop();
     Navigator.pushNamed(context, '/sentiment_analysis', arguments: {'Amazon': amazon['Amazon'], 'Flipkart': flipkart['Flipkart']});
+  }
+  Widget _buildPopUpDialog(BuildContext context){
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CircularProgressIndicator(
+            backgroundColor: Colors.pink[300],
+          ),
+          SizedBox(width: Dimensions.boxWidth*4),
+          Text(
+            'Analysing...',
+            style: TextStyle(
+              color: Colors.pink[100],
+              fontWeight: FontWeight.bold,
+              fontSize: Dimensions.boxHeight*4
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -231,6 +259,10 @@ class _ProductPageState extends State<ProductPage> {
                     backgroundColor: Colors.pink[800],
                     onPressed: (){
                       getAnalysis(product['Productid']);
+//                      showDialog(
+//                        context: context,
+//                        builder: (BuildContext context) => _buildPopUpDialog(context,product['Productid']),
+//                      );
                     },
                     label: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50.0),

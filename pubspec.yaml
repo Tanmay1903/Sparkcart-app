@@ -28,6 +28,9 @@ dependencies:
   carousel_slider: ^3.0.0
   cached_network_image: ^2.0.0-rc
   flutter_rating_bar: ^3.2.0+1
+  shared_preferences: ^0.5.1+2
+  flutter_secure_storage: ^3.3.3
+  flutter_sequence_animation: ^3.0.1
 
 
   # The following adds the Cupertino Icons font to your application.

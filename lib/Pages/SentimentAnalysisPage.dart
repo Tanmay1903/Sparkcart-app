@@ -133,7 +133,7 @@ class _SentimentAnalysisState extends State<SentimentAnalysis> {
                           child: Image.asset("assets/flipkart.png")
                       ),
                     ),
-                    SizedBox(height: 10.0),
+                    SizedBox(height: Dimensions.boxHeight*1.5),
                     CardData(sentiment, 'Flipkart')
                   ],
                 )
