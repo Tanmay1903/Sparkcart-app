@@ -29,8 +29,6 @@ Future<dynamic> getReviews(product) async {
     else if(response.statusCode==204){
 
       var jsonData = json.decode(response.body);
-      print(jsonData['message']);
-      print(1);
       return jsonData['message'];
     }
   }catch(e){

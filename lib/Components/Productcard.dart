@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sparkcart/Components/Corousel.dart';
 import '../constants.dart';
 import '../dimensions.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -34,36 +35,7 @@ class ProductCardComponent  extends StatelessWidget {
                   width: Dimensions.boxHeight * 30,
                   height: Dimensions.boxHeight * 17,
                   child: Container(
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                          height: 200.0,
-                          initialPage: 1,
-                          autoPlay: true,
-                          autoPlayInterval: Duration(seconds: 3),
-                          autoPlayAnimationDuration: Duration(milliseconds: 800),
-                          autoPlayCurve: Curves.fastLinearToSlowEaseIn,
-                          enlargeCenterPage: true,
-                        ),
-                        items: images.map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 2.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: FittedBox(
-                                    child: Image(
-                                        image: NetworkImage(i)
-                                    ),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        }).toList(),
-                      )
+                      child: getNetworkCorousel(images, false)
                   ),
                 ),
 

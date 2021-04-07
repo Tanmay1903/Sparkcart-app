@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:sparkcart/Components/Corousel.dart';
 import 'package:sparkcart/Components/Drawer.dart';
-import 'package:sparkcart/Pages/ProfilePage.dart';
+import 'package:sparkcart/Pages/CartPage.dart';
 
 import '../dimensions.dart';
 import 'dart:math';
@@ -58,6 +58,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Dimensions(context);
     products = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       drawer: CustomDrawer(),
       appBar: AppBar(
@@ -70,7 +71,12 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0.0,0.0,10.0,0.0),
             child: IconButton(
-                onPressed: (){},
+                onPressed: ()  {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => CartPage()));
+//                  List<dynamic> data = getCart() as List;
+//                  print(data);
+                  },
                 icon: Icon(Icons.shopping_cart)
             ),
           )
@@ -124,36 +130,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             SizedBox(height: 10.0),
             Container(
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: 200.0,
-                    initialPage: 1,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastLinearToSlowEaseIn,
-                    enlargeCenterPage: true,
-                  ),
-                  items: imageurls.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 2.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(25),
-                            child: FittedBox(
-                              child: Image(
-                                  image: AssetImage(i)
-                              ),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }).toList(),
-                )
+                child: getCorousel(imageurls)
             ),
             SizedBox(height: 20.0),
             ProductCard(),

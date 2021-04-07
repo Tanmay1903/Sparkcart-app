@@ -1,7 +1,7 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import '../Components/Corousel.dart';
 import 'package:sparkcart/Components/AppBarComponent.dart';
 import 'package:sparkcart/Components/ReviewCard.dart';
 import 'package:sparkcart/Components/CustomDivider.dart';
@@ -81,36 +81,7 @@ class _ProductPageState extends State<ProductPage> {
                   children: <Widget>[
                     Container(
                     margin: EdgeInsets.all(10.0),
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                          height: Dimensions.boxHeight*50,
-                          initialPage: 1,
-                          autoPlay: true,
-                          autoPlayInterval: Duration(seconds: 3),
-                          autoPlayAnimationDuration: Duration(milliseconds: 800),
-                          autoPlayCurve: Curves.fastLinearToSlowEaseIn,
-                          enlargeCenterPage: true,
-                        ),
-                        items: images.map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 2.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: FittedBox(
-                                    child: Image(
-                                        image: NetworkImage(i)
-                                    ),
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        }).toList(),
-                      )
+                      child: getNetworkCorousel(images, true)
                   ),
                     Positioned(
                       top: Dimensions.boxHeight*4,
