@@ -4,6 +4,7 @@ import 'package:sparkcart/Components/Description.dart';
 import 'package:sparkcart/Components/Specification.dart';
 import 'package:sparkcart/Components/MoreInfo.dart';
 import 'package:sparkcart/Components/AppBarComponent.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class ProductDetail extends StatefulWidget {
   final Map product;
   ProductDetail({this.product});
@@ -14,6 +15,14 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   String title = 'Description';
+  bool isLoggedIn = false;
+
+  check_user() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isLoggedIn = prefs.getBool('isLogin');
+    });
+  }
 
   Widget Detail(title){
       switch(title) {
@@ -31,11 +40,16 @@ class _ProductDetailState extends State<ProductDetail> {
           return Description(widget.product);
       }
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    check_user();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarComponent(),
+        appBar: AppBarComponent(context,isLoggedIn),
         body:Column(
           children: <Widget>[
             Container(

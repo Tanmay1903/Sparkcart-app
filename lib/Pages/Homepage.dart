@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sparkcart/Components/Corousel.dart';
 import 'package:sparkcart/Components/Drawer.dart';
 import 'package:sparkcart/Pages/CartPage.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sparkcart/Pages/WishlistPage.dart';
 import '../dimensions.dart';
 import 'dart:math';
 import '../Components/Productcard.dart';
@@ -31,9 +32,26 @@ class _HomePageState extends State<HomePage> {
   ];
   final _random = new Random();
   dynamic product;
+  bool isLoggedIn = false;
+  check_user() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isLoggedIn = prefs.getBool('isLogin');
+    });
+  }
   void onItemTapped(int index){
+    if (index == 1){
+      isLoggedIn?
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => WishlistPage()))
+          :
+      Navigator.pushNamed(context, '/login');
+    }
     if (index == 2){
-      Navigator.pushNamed(context, '/profile');
+      isLoggedIn ?
+      Navigator.pushNamed(context, '/profile')
+      :
+      Navigator.pushNamed(context, '/login');
     }
   }
   Widget ProductCard() {
@@ -53,7 +71,12 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    check_user();
+  }
   @override
   Widget build(BuildContext context) {
     Dimensions(context);
@@ -72,10 +95,11 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.fromLTRB(0.0,0.0,10.0,0.0),
             child: IconButton(
                 onPressed: ()  {
+                  isLoggedIn?
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => CartPage()));
-//                  List<dynamic> data = getCart() as List;
-//                  print(data);
+                      context, MaterialPageRoute(builder: (context) => CartPage()))
+                  :
+                  Navigator.pushNamed(context, '/login');
                   },
                 icon: Icon(Icons.shopping_cart)
             ),

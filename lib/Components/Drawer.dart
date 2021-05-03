@@ -251,12 +251,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
         String res = await logout();
         if (res == '{"message":"You have been successfully logged out"}') {
           prefs.setBool("isLogin", false);
-
           prefs.setString("username", "");
           prefs.setString("first_name", null);
           final all = await _storage.deleteAll();
           showSnackbar('Logout Successfully');
         }  else {
+          prefs.setBool("isLogin", false);
+          final all = await _storage.deleteAll();
           print("some other error from backend");
         }
       }

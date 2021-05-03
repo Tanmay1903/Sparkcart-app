@@ -35,10 +35,18 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
+  bool isInternet = true;
   void getProducts() async {
-    Response response = await get('$domain/product_list/');
-    List<dynamic> data = jsonDecode(response.body);
-    Navigator.pushReplacementNamed(context, '/home', arguments: data);
+    try {
+      Response response = await get('$domain/product_list/');
+      List<dynamic> data = jsonDecode(response.body);
+      Navigator.pushReplacementNamed(context, '/home', arguments: data);
+    }
+    catch(e){
+      setState(() {
+        isInternet = false;
+      });
+    }
   }
   @override
   void initState() {
@@ -51,8 +59,12 @@ class _LoadingState extends State<Loading> {
     return Scaffold(
       
       body: SafeArea(
-        child: Text(
+        child: isInternet?
+        Text(
           'Loading Screen'
+        ):
+        Text(
+          'Please check your Internet Connection'
         ),
       )
     );

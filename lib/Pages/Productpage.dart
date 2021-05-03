@@ -2,6 +2,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Components/Corousel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparkcart/Components/AppBarComponent.dart';
 import 'package:sparkcart/Components/ReviewCard.dart';
 import 'package:sparkcart/Components/CustomDivider.dart';
@@ -20,6 +21,13 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   var isFav = false;
+  bool isLoggedIn = false;
+  check_user() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isLoggedIn = prefs.getBool('isLogin');
+    });
+  }
   Future<dynamic> data ;
   void getAnalysis(int id) async {
     Response response;
@@ -59,7 +67,12 @@ class _ProductPageState extends State<ProductPage> {
       ),
     );
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    check_user();
+  }
   @override
   Widget build(BuildContext context) {
     Map product = ModalRoute.of(context).settings.arguments;
@@ -69,7 +82,7 @@ class _ProductPageState extends State<ProductPage> {
     var images = ["$domain/media/front_pic/${product['FrontPic']}",
       "$domain/media/back_pic/${product['BackPic']}"];
     return Scaffold(
-      appBar: AppBarComponent(),
+      appBar: AppBarComponent(context,isLoggedIn),
       body: SafeArea(
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
