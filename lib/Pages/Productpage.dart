@@ -1,6 +1,9 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sparkcart/ApiCalls/addToCartApi.dart';
+import 'package:sparkcart/ApiCalls/removeFromCartApi.dart';
+import 'package:sparkcart/Components/getSnackbar.dart';
 import '../Components/Corousel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparkcart/Components/AppBarComponent.dart';
@@ -107,7 +110,37 @@ class _ProductPageState extends State<ProductPage> {
                               isFav ? Icons.favorite: Icons.favorite_border,
                             color: Colors.pink[800],
                           ),
-                          onPressed: (){
+                          onPressed: () async {
+                            SnackBar snackbar;
+                            if(!isFav) {
+                              var status = await AddToWishlist(
+                                  product["Productid"], 1);
+                              if (status == 200) {
+                                snackbar =
+                                    getSnackBar('Item Already in Wishlist');
+                              }
+                              else if (status == 201) {
+                                snackbar =
+                                    getSnackBar('Product added to Wishlist');
+                              }
+                              else {
+                                snackbar = getSnackBar(
+                                    'Some Unknown Error from backend');
+                              }
+                            }
+                            else{
+                              var status = await removeFromWishlist(product["Productid"]);
+                              if(status == 200){
+                                snackbar = getSnackBar('Product Removed From Wishlist');
+                              }
+                              else if(status == 404){
+                                snackbar = getSnackBar('Product already removed!');
+                              }
+                              else{
+                                snackbar = getSnackBar('Some Unknown Error from backend');
+                              }
+                            }
+                            ScaffoldMessenger.of(context).showSnackBar(snackbar);
                             setState(() {
                               isFav = !isFav;
                             });
@@ -516,7 +549,20 @@ class _ProductPageState extends State<ProductPage> {
                       fontWeight: FontWeight.bold
                     ),
                   ),
-                  onPressed: (){},
+                  onPressed: () async {
+                    var status = await AddToCart(product["Productid"], 1);
+                    SnackBar snackbar;
+                    if(status == 200){
+                      snackbar = getSnackBar('Cart Updated');
+                    }
+                    else if(status == 201){
+                      snackbar = getSnackBar('Product added to Cart');
+                    }
+                    else{
+                      snackbar = getSnackBar('Some Unknown Error from backend');
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  },
                 ),
               ),
             ),

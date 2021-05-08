@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:sparkcart/Pages/LoginPage.dart';
+import 'package:sparkcart/Pages/SearchByCategoryPage.dart';
 import 'package:sparkcart/Pages/SentimentAnalysisPage.dart';
 import 'Pages/Homepage.dart';
 import 'Pages/Productpage.dart';
@@ -26,6 +27,7 @@ void main() => runApp(MaterialApp(
     '/Product_page': (context) => ProductPage(),
     '/profile': (context) => ProfilePage(),
     '/sentiment_analysis': (context) => SentimentAnalysis(),
+    '/searchcategory': (context) => SearchByCategoryPage(),
   }
 ));
 

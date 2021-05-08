@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Pages/CartPage.dart';
+import '../Pages/WishlistPage.dart';
 
 
 Widget AppBarComponent(BuildContext context,bool isLoggedIn){
@@ -7,8 +8,14 @@ Widget AppBarComponent(BuildContext context,bool isLoggedIn){
       AppBar(
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.mic),
-              onPressed: (){},
+              icon: Icon(Icons.favorite),
+              onPressed: (){
+                isLoggedIn?
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => WishlistPage()))
+                    :
+                Navigator.pushNamed(context, '/login');
+              },
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0.0,0.0,10.0,0.0),

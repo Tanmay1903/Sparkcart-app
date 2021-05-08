@@ -16,6 +16,7 @@ class WishlistCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final List images = ["$domain/media/front_pic/${data.FrontPic}",
       "$domain/media/back_pic/${data.BackPic}"];
+    var percentage = ((data.Discount/data.Price)*100).round();
     final double price = data.Price - data.Discount;
     return Container(
       margin: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*2, horizontal: Dimensions.boxWidth*5),
@@ -57,22 +58,62 @@ class WishlistCard extends StatelessWidget {
                           style: TextStyle(
                               color: Colors.pink[800],
                               fontWeight: FontWeight.bold,
-                              fontSize: Dimensions.boxHeight*2.2
+                              fontSize: Dimensions.boxHeight*2.7
                           ),
                         ),
                       ),
-                      SizedBox(height: Dimensions.boxHeight),
+
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          data.Brand,
+                          style: TextStyle(
+                              fontSize: Dimensions.boxHeight*2.2,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[600],
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                      ),
                       Expanded(
                         flex: 1,
-                        child: Text(
-                          "Rs. ${price}",
-                          style: TextStyle(
+                        child: Row(
+                          children: [
+                            Text(
+                              "Rs. ${price}",
+                              style: TextStyle(
+                                  color: Colors.pink[800],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Dimensions.boxHeight*2.5
+                              ),
+                            ),
+                            SizedBox(width: 5.0),
+                            Text(
+                              "${data.Price}",
+                              style: TextStyle(
+                                  fontSize: Dimensions.boxHeight*2,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.grey[700],
+                                  decoration: TextDecoration.lineThrough
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 5.0),
+                              padding: EdgeInsets.all(5.0),
+                              child: Text(
+                                "$percentage% Off",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic
+                                ),
+                              ),
                               color: Colors.pink[800],
-                              fontWeight: FontWeight.bold,
-                              fontSize: Dimensions.boxHeight*2
-                          ),
+                            )
+                          ],
                         ),
                       ),
+
                     ],
                   ),
                 )

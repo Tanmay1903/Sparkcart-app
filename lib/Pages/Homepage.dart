@@ -4,6 +4,7 @@ import 'package:sparkcart/Components/Corousel.dart';
 import 'package:sparkcart/Components/Drawer.dart';
 import 'package:sparkcart/Pages/CartPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sparkcart/Pages/SearchByCategoryPage.dart';
 import 'package:sparkcart/Pages/WishlistPage.dart';
 import '../dimensions.dart';
 import 'dart:math';
@@ -15,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<dynamic> products = [];
+  var searchValue;
   var imageurls = [
     'assets/offer1.jfif',
     'assets/offer2.jpg',
@@ -106,9 +108,9 @@ class _HomePageState extends State<HomePage> {
           )
         ],
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
+          preferredSize: Size.fromHeight(Dimensions.boxHeight*9),
           child: Container(
-            height: 40.0,
+            height: Dimensions.boxHeight*6,
             margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
             //padding: const EdgeInsets.only(top:10),
             decoration: BoxDecoration(
@@ -123,7 +125,15 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Icon(Icons.search,color: Colors.grey),
+                    SizedBox(width: Dimensions.boxWidth*2,),
+                    InkWell(
+                      onTap: (){
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => SearchByCategoryPage(Category: searchValue,Key: "Search",)));
+                      },
+                        child: Icon(Icons.search,color: Colors.grey)
+                    ),
+                    SizedBox(width: Dimensions.boxWidth*2,),
                     Expanded(
                       child: TextField(
                         // textAlign: TextAlign.center,
@@ -131,7 +141,11 @@ class _HomePageState extends State<HomePage> {
                           hintText: ' Search by name or category',
                         ),
                         onChanged: (value) {
-
+                          searchValue = value;
+                        },
+                        onSubmitted: (value){
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => SearchByCategoryPage(Category: value,Key: "Search",)));
                         },
                       ),
                     ),
@@ -170,21 +184,27 @@ class _HomePageState extends State<HomePage> {
                     scrollDirection: Axis.horizontal,
                     itemCount: categories.length,
                     itemBuilder: (context,index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: CircleAvatar(
-                          child: Text(
-                            categories[index],
-                            style: TextStyle(
-                                fontSize: 10.0,
-                                color: Colors.white,
-                              fontWeight: FontWeight.bold
+                      return InkWell(
+                        onTap: (){
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => SearchByCategoryPage(Category: categories[index],Key: "Category",)));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: CircleAvatar(
+                            child: Text(
+                              categories[index],
+                              style: TextStyle(
+                                  fontSize: 10.0,
+                                  color: Colors.white,
+                                fontWeight: FontWeight.bold
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
+                            radius: 30.0,
+                            backgroundColor: Colors.pink[800],
+                            //backgroundImage: AssetImage('assets/electronics.jfif'),
                           ),
-                          radius: 30.0,
-                          backgroundColor: Colors.pink[800],
-                          //backgroundImage: AssetImage('assets/electronics.jfif'),
                         ),
                       );
                     }
