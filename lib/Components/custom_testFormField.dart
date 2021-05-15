@@ -41,7 +41,7 @@ class CustomTextFormField extends StatelessWidget {
             horizontal: Dimensions.boxWidth * 5,
             vertical: Dimensions.boxWidth *2),
         child: Container(
-          height: Dimensions.boxHeight * containerHeight,
+          height: Dimensions.boxHeight *containerHeight,
           width: Dimensions.boxWidth * 90,
           decoration: BoxDecoration(
             borderRadius:

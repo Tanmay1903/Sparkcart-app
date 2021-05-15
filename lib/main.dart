@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:sparkcart/Pages/LoginPage.dart';
 import 'package:sparkcart/Pages/SearchByCategoryPage.dart';
@@ -9,6 +9,7 @@ import 'Pages/Productpage.dart';
 import 'constants.dart';
 import 'package:http/http.dart';
 import 'Pages/ProfilePage.dart';
+import './Components/getSnackbar.dart';
 
 void main() => runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -37,7 +38,6 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  bool isInternet = true;
   void getProducts() async {
     try {
       Response response = await get('$domain/product_list/');
@@ -45,29 +45,28 @@ class _LoadingState extends State<Loading> {
       Navigator.pushReplacementNamed(context, '/home', arguments: data);
     }
     catch(e){
-      setState(() {
-        isInternet = false;
-      });
+      SnackBar snackBar = getSnackBar("Please Check Your Internet Connection");
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProducts();
+    Future.delayed(Duration(seconds: 4),getProducts);
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       
       body: SafeArea(
-        child: isInternet?
-        Text(
-          'Loading Screen'
-        ):
-        Text(
-          'Please check your Internet Connection'
-        ),
+        child:
+        SpinKitChasingDots(
+          color: Colors.pink[800],
+          duration: Duration(milliseconds: 1000),
+          size: 60.0,
+        )
       )
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sparkcart/Components/getSnackbar.dart';
 import 'package:sparkcart/Pages/Homepage.dart';
+import 'package:sparkcart/Pages/RegisterPage.dart';
 import 'package:sparkcart/dimensions.dart';
 import 'package:sparkcart/main.dart';
 import '../Components/custom_testFormField.dart';
@@ -25,9 +27,14 @@ class _LoginPageState extends State<LoginPage> {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
-      return "Email is Required";
+      SnackBar snackBar = getSnackBar("Email is Required");
+      // ignore: deprecated_member_use
+      scaffoldKey.currentState.showSnackBar(snackBar);
+      return null;
     } else if (!regExp.hasMatch(value)) {
-      return "Invalid Email";
+      SnackBar snackBar = getSnackBar("Invalid Email");
+      scaffoldKey.currentState.showSnackBar(snackBar);
+      return null;
     } else {
       return null;
     }
@@ -38,7 +45,9 @@ class _LoginPageState extends State<LoginPage> {
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
-      return "Password is Required";
+      SnackBar snackBar = getSnackBar("Password is required");
+      scaffoldKey.currentState.showSnackBar(snackBar);
+      return null;
     }
   }
   void _emailEditingComplete(){
@@ -219,7 +228,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+                  },
                   child: Text(
                     'Register',
                     style: TextStyle(

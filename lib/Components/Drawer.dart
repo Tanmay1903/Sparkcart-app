@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparkcart/Pages/HelpPage.dart';
+import 'package:sparkcart/Pages/SettingsPage.dart';
 import 'package:sparkcart/Pages/WishlistPage.dart';
 import 'package:sparkcart/dimensions.dart';
 import '../Components/sweetalert.dart';
@@ -150,6 +151,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
           ),
           ListTile(
+            onTap: (){
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SettingsPage())
+              );
+            },
             contentPadding: EdgeInsets.symmetric(horizontal: 25.0),
             leading: Icon(
               Icons.settings,

@@ -48,6 +48,42 @@ class _ProductPageState extends State<ProductPage> {
     Navigator.of(context).pop();
     Navigator.pushNamed(context, '/sentiment_analysis', arguments: {'Amazon': amazon['Amazon'], 'Flipkart': flipkart['Flipkart']});
   }
+
+  void Wishlist(product) async {
+    SnackBar snackbar;
+    if(!isFav) {
+      var status = await AddToWishlist(
+          product["Productid"], 1);
+      if (status == 200) {
+        snackbar =
+            getSnackBar('Item Already in Wishlist');
+      }
+      else if (status == 201) {
+        snackbar =
+            getSnackBar('Product added to Wishlist');
+      }
+      else {
+        snackbar = getSnackBar(
+            'Some Unknown Error from backend');
+      }
+    }
+    else{
+      var status = await removeFromWishlist(product["Productid"]);
+      if(status == 200){
+        snackbar = getSnackBar('Product Removed From Wishlist');
+      }
+      else if(status == 404){
+        snackbar = getSnackBar('Product already removed!');
+      }
+      else{
+        snackbar = getSnackBar('Some Unknown Error from backend');
+      }
+    }
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    setState(() {
+      isFav = !isFav;
+    });
+  }
   Widget _buildPopUpDialog(BuildContext context){
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -111,39 +147,10 @@ class _ProductPageState extends State<ProductPage> {
                             color: Colors.pink[800],
                           ),
                           onPressed: () async {
-                            SnackBar snackbar;
-                            if(!isFav) {
-                              var status = await AddToWishlist(
-                                  product["Productid"], 1);
-                              if (status == 200) {
-                                snackbar =
-                                    getSnackBar('Item Already in Wishlist');
-                              }
-                              else if (status == 201) {
-                                snackbar =
-                                    getSnackBar('Product added to Wishlist');
-                              }
-                              else {
-                                snackbar = getSnackBar(
-                                    'Some Unknown Error from backend');
-                              }
-                            }
-                            else{
-                              var status = await removeFromWishlist(product["Productid"]);
-                              if(status == 200){
-                                snackbar = getSnackBar('Product Removed From Wishlist');
-                              }
-                              else if(status == 404){
-                                snackbar = getSnackBar('Product already removed!');
-                              }
-                              else{
-                                snackbar = getSnackBar('Some Unknown Error from backend');
-                              }
-                            }
-                            ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                            setState(() {
-                              isFav = !isFav;
-                            });
+                            isLoggedIn?
+                                Wishlist(product)
+                            :
+                                Navigator.pushNamed(context, '/login');
                           },
                         ),
                       ),
@@ -276,10 +283,6 @@ class _ProductPageState extends State<ProductPage> {
                     backgroundColor: Colors.pink[800],
                     onPressed: (){
                       getAnalysis(product['Productid']);
-//                      showDialog(
-//                        context: context,
-//                        builder: (BuildContext context) => _buildPopUpDialog(context,product['Productid']),
-//                      );
                     },
                     label: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50.0),

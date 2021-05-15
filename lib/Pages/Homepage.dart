@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sparkcart/Components/Corousel.dart';
 import 'package:sparkcart/Components/Drawer.dart';
+import 'package:sparkcart/Components/getSnackbar.dart';
 import 'package:sparkcart/Pages/CartPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparkcart/Pages/SearchByCategoryPage.dart';
@@ -91,7 +92,10 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.mic),
-              onPressed: (){},
+              onPressed: (){
+                SnackBar snackbar = getSnackBar('Coming Soon');
+                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+              },
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0.0,0.0,10.0,0.0),
@@ -149,12 +153,15 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
+                    SizedBox(width: Dimensions.boxWidth*2,),
                     InkWell(
                       child: Icon(Icons.mic,color: Colors.grey,),
                       onTap: () {
-
+                        SnackBar snackbar = getSnackBar('Coming Soon');
+                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
                       },
-                    )
+                    ),
+                    SizedBox(width: Dimensions.boxWidth*2,),
                   ],
                 ),
               ),
@@ -166,13 +173,13 @@ class _HomePageState extends State<HomePage> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: <Widget>[
-            SizedBox(height: 10.0),
+            SizedBox(height: Dimensions.boxHeight*2),
             Container(
                 child: getCorousel(imageurls)
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: Dimensions.boxHeight*3),
             ProductCard(),
-            SizedBox(height: 10.0),
+            SizedBox(height: Dimensions.boxHeight*2),
             Row(
               children: <Widget>[
                 Container(
@@ -195,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                             child: Text(
                               categories[index],
                               style: TextStyle(
-                                  fontSize: 10.0,
+                                  fontSize: Dimensions.boxHeight*1.6,
                                   color: Colors.white,
                                 fontWeight: FontWeight.bold
                               ),
@@ -212,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            SizedBox(height: 10.0),
+            SizedBox(height: Dimensions.boxHeight*2),
             ProductCard()
           ],
         ),
