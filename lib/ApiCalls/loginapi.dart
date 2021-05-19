@@ -25,7 +25,6 @@ Future loginusers(String email, String password) async {
       if (response.body.isNotEmpty){
         var convertedDatatoJson = json.decode(response.body);
         updateCookie(response);
-
         return convertedDatatoJson;
       }
 

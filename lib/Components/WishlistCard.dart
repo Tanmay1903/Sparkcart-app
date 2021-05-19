@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sparkcart/ApiCalls/getCartApi.dart';
 import 'package:sparkcart/ApiCalls/removeFromCartApi.dart';
+import 'package:sparkcart/Pages/BuyNowPage.dart';
 import 'package:sparkcart/Pages/WishlistPage.dart';
 import '../dimensions.dart';
 import '../constants.dart';
@@ -193,33 +194,38 @@ class _WishlistCardState extends State<WishlistCard> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(10.0),
-                      width: Dimensions.boxWidth*43,
-                      height: Dimensions.boxHeight*5.5,
-                      decoration: BoxDecoration(
-                          color: Colors.pink[800],
-                          borderRadius: BorderRadius.circular(Dimensions.boxHeight * 5)
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.archive,
-                            color: Colors.white,
-                            size: Dimensions.boxHeight*2.5,
-                          ),
-                          SizedBox(width: Dimensions.boxWidth),
-                          Text(
-                            'Buy Now',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.values[4],
-                                letterSpacing: 2,
-                                fontSize: Dimensions.boxHeight*2
+                    InkWell(
+                      onTap: (){
+                        Navigator.pushNamed(context, '/buynow', arguments: [widget.data]);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10.0),
+                        width: Dimensions.boxWidth*43,
+                        height: Dimensions.boxHeight*5.5,
+                        decoration: BoxDecoration(
+                            color: Colors.pink[800],
+                            borderRadius: BorderRadius.circular(Dimensions.boxHeight * 5)
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.archive,
+                              color: Colors.white,
+                              size: Dimensions.boxHeight*2.5,
                             ),
-                          ),
-                        ],
+                            SizedBox(width: Dimensions.boxWidth),
+                            Text(
+                              'Buy Now',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.values[4],
+                                  letterSpacing: 2,
+                                  fontSize: Dimensions.boxHeight*2
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                 ]

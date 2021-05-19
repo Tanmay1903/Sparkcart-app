@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sparkcart/ApiCalls/addToCartApi.dart';
 import 'package:sparkcart/ApiCalls/removeFromCartApi.dart';
 import 'package:sparkcart/Components/getSnackbar.dart';
+import 'package:sparkcart/Pages/BuyNowPage.dart';
 import '../Components/Corousel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparkcart/Components/AppBarComponent.dart';
@@ -586,7 +587,12 @@ class _ProductPageState extends State<ProductPage> {
                         fontWeight: FontWeight.bold
                     ),
                   ),
-                  onPressed: (){},
+                  onPressed: (){
+                    isLoggedIn?
+                    Navigator.pushNamed(context, '/buynow', arguments: [product])
+                        :
+                        Navigator.pushNamed(context, '/login');
+                  },
                 ),
               ),
             )

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
+import 'package:sparkcart/Pages/BuyNowPage.dart';
 import 'package:sparkcart/Pages/LoginPage.dart';
 import 'package:sparkcart/Pages/SearchByCategoryPage.dart';
 import 'package:sparkcart/Pages/SentimentAnalysisPage.dart';
@@ -29,6 +30,7 @@ void main() => runApp(MaterialApp(
     '/profile': (context) => ProfilePage(),
     '/sentiment_analysis': (context) => SentimentAnalysis(),
     '/searchcategory': (context) => SearchByCategoryPage(),
+    '/buynow' : (context) => BuyNow(),
   }
 ));
 

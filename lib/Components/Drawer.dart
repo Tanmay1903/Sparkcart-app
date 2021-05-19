@@ -267,6 +267,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
           prefs.setBool("isLogin", false);
           prefs.setString("username", "");
           prefs.setString("first_name", null);
+          prefs.setString("last_name", null);
+          //prefs.setString("address", null);
           final all = await _storage.deleteAll();
           showSnackbar('Logout Successfully');
         }  else {

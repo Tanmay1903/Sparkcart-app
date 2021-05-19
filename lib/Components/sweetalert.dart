@@ -1,6 +1,7 @@
 library sweetalert;
 
 import 'package:flutter/material.dart';
+import 'package:sparkcart/Components/getSnackbar.dart';
 import '../dimensions.dart';
 import '../constants.dart';
 
@@ -92,13 +93,6 @@ class SweetAlertDialogState extends State<SweetAlertDialog>
     super.initState();
   }
 
-  @override
-  void dispose() {
-    controller?.dispose();
-
-    SweetAlert._state = null;
-    super.dispose();
-  }
 
   @override
   void didUpdateWidget(SweetAlertDialog oldWidget) {
@@ -106,17 +100,8 @@ class SweetAlertDialogState extends State<SweetAlertDialog>
   }
 
   void showSnackbar(String message){
-    final snackbar = SnackBar(
-        content: Text(
-            message,
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: Dimensions.boxHeight*2,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 2
-        )
-        ),
-      backgroundColor: Colors.pink[800],
+    final snackbar = getSnackBar(
+            message
     );
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
@@ -124,8 +109,9 @@ class SweetAlertDialogState extends State<SweetAlertDialog>
   void confirm() {
     if (_options.onPress != null && _options.onPress(true) == false) return;
     showSnackbar('Logout Successfully');
-    Navigator.pop(context);
-
+    Future.delayed(Duration(seconds: 3),(){
+      Navigator.pop(context);
+    });
   }
 
   void cancel() {

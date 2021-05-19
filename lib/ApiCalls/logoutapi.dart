@@ -20,7 +20,6 @@ Future<String> logout() async {
   request.headers.set('referer', "http://159.65.157.59/");
   final response = await request.close();
     String reply = await response.transform(utf8.decoder).join();
-
     return reply;
 
 }

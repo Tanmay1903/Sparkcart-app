@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:sparkcart/ApiCalls/getCartApi.dart';
 import 'package:sparkcart/Components/CartCard.dart';
+import 'package:sparkcart/Pages/BuyNowPage.dart';
 import '../dimensions.dart';
 
 
@@ -140,24 +141,29 @@ class _CartPageState extends State<CartPage> {
             ),
             Expanded(
               flex: 1,
-              child: Container(
-                padding: EdgeInsets.all(10.0),
-                width: Dimensions.boxWidth*30,
-                height: Dimensions.boxHeight*7,
-                decoration: BoxDecoration(
-                    color: Colors.pink[50],
-                    borderRadius: BorderRadius.circular(Dimensions.boxHeight * 5)
-                ),
-                child: Center(
-                  child: Text(
-                        'Buy Now',
-                        style: TextStyle(
-                            color: Colors.pink[800],
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 2,
-                            fontSize: Dimensions.boxHeight*2.5
+              child: InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => BuyNow()));
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  width: Dimensions.boxWidth*30,
+                  height: Dimensions.boxHeight*7,
+                  decoration: BoxDecoration(
+                      color: Colors.pink[50],
+                      borderRadius: BorderRadius.circular(Dimensions.boxHeight * 5)
+                  ),
+                  child: Center(
+                    child: Text(
+                          'Buy Now',
+                          style: TextStyle(
+                              color: Colors.pink[800],
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                              fontSize: Dimensions.boxHeight*2.5
+                          ),
                         ),
-                      ),
+                  ),
                 ),
               ),
             ),

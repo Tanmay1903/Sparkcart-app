@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sparkcart/Components/getSnackbar.dart';
-import 'package:sparkcart/Pages/Homepage.dart';
 import 'package:sparkcart/Pages/RegisterPage.dart';
 import 'package:sparkcart/dimensions.dart';
 import 'package:sparkcart/main.dart';
@@ -56,10 +55,6 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() async {
     try{
-      setState(() {
-        _condition = false;
-      });
-
       SharedPreferences prefs = await SharedPreferences.getInstance();
         final String email = _EmailController.text;
         final String password = _PassController.text;
@@ -67,48 +62,20 @@ class _LoginPageState extends State<LoginPage> {
         var res = await loginusers(email, password);
         if (res == 1) {
           prefs.setBool("isLogin", false);
-          SnackBar snackbar2 = SnackBar(
-            duration: Duration(seconds: 2),
-            content: Text(
+          SnackBar snackbar2 = getSnackBar(
               "Invalid login details",
-              style: TextStyle(
-                  fontSize: 15,
-                  letterSpacing: 2,
-                  color: Colors.white,
-                  ),
-            ),
-            backgroundColor: Colors.pink[800],
           );
           scaffoldKey.currentState.showSnackBar(snackbar2);
         } else if (res == 2) {
           prefs.setBool("isLogin", false);
-          SnackBar snackbar9 = SnackBar(
-            duration: Duration(seconds: 2),
-            content: Text(
+          SnackBar snackbar9 = getSnackBar(
               "User does not exist",
-              style: TextStyle(
-                  fontSize: 15,
-                  letterSpacing: 2,
-                  color: Colors.white,
-                  ),
-            ),
-            backgroundColor: Colors.pink[800],
           );
           scaffoldKey.currentState.showSnackBar(snackbar9);
         } else if (res == 3) {
           prefs.setBool("isLogin", false);
-          SnackBar snackbar9 = SnackBar(
-            duration: Duration(seconds: 2),
-            content: Text(
-              "Please click on the verification link \nsent to you on your registered email",
-              style: TextStyle(
-                  fontSize: 15,
-                  letterSpacing: 2,
-                  color: Colors.white,
-                  ),
-            ),
-            backgroundColor: Colors.pink[800],
-          );
+          SnackBar snackbar9 = getSnackBar(
+              "Please click on the verification link \nsent to you on your registered email",);
           scaffoldKey.currentState.showSnackBar(snackbar9);
         } else {
           prefs.setBool("isLogin", true);
@@ -116,19 +83,9 @@ class _LoginPageState extends State<LoginPage> {
           prefs.setString('first_name', res['first_name']);
           prefs.setString('last_name', res['last_name']);
           prefs.setString('email', res['email']);
-          SnackBar snackbar1 = SnackBar(
-            duration: Duration(seconds: 2),
-            content: Text(
-              "Login Successful",
-              style: TextStyle(
-                  fontSize: Dimensions.boxHeight*2.5,
-                  letterSpacing: 2,
-                  color: Colors.white,
-                fontWeight: FontWeight.bold
-                  ),
-            ),
-            backgroundColor: Colors.pink[800],
-          );
+          prefs.setStringList('address',[""]);
+
+          SnackBar snackbar1 = getSnackBar("Login Successful");
           scaffoldKey.currentState.showSnackBar(snackbar1);
           if (prefs.getBool("isLogin") == true) {
             Future.delayed(Duration(seconds: 3), () {
@@ -138,11 +95,7 @@ class _LoginPageState extends State<LoginPage> {
           }
         }
     }catch(e){
-
-    }finally{
-      setState(() {
-        _condition = true;
-      });
+      print(e);
     }
   }
 
@@ -205,7 +158,6 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'Password',
               onEditingComplete: (){
                 FocusScope.of(context).requestFocus(new FocusNode());
-                _login();
               },
               focusNode: _passwordFocusNode,
             ),
@@ -264,7 +216,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                onPressed: _condition?(){_login();}:null,
+                onPressed: (){
+                _login();
+              }
                 )
           ],
         ),
