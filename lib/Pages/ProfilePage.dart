@@ -25,7 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   check_user() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isLoggedIn = prefs.getBool('isLogin');
+      isLoggedIn = prefs.getBool('isLogin') != null ? prefs.getBool('isLogin') : false ;
       FirstName = prefs.getString('first_name');
       LastName = prefs.getString('last_name');
       UserName = prefs.getString('username');

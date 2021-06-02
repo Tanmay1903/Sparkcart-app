@@ -29,7 +29,7 @@ class _ProductPageState extends State<ProductPage> {
   check_user() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isLoggedIn = prefs.getBool('isLogin');
+      isLoggedIn = prefs.getBool('isLogin') != null ? prefs.getBool('isLogin') : false ;
     });
   }
   Future<dynamic> data ;

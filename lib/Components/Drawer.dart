@@ -23,7 +23,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   check_user() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isLoggedIn = prefs.getBool('isLogin');
+      isLoggedIn = prefs.getBool('isLogin') != null ? prefs.getBool('isLogin') : false ;
       FirstName = prefs.getString('first_name');
       LastName = prefs.getString('last_name');
     });

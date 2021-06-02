@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   check_user() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isLoggedIn = prefs.getBool('isLogin');
+      isLoggedIn = prefs.getBool('isLogin') != null ? prefs.getBool('isLogin') : false ;
     });
   }
   void onItemTapped(int index){
@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
   @override
   void initState() {
     // TODO: implement initState

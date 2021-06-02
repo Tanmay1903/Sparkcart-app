@@ -29,10 +29,8 @@ class _CartCardState extends State<CartCard> {
       Navigator.pushReplacementNamed(context, '/Product_page', arguments: product);
     }
     catch(e){
-      setState(() {
         SnackBar snackBar = getSnackBar("Please Check Your Internet Connection");
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      });
     }
   }
   @override

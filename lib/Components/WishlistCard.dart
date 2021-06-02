@@ -21,11 +21,16 @@ class WishlistCard extends StatefulWidget {
 }
 
 class _WishlistCardState extends State<WishlistCard> {
-  void getProduct(BuildContext context, int id) async {
+  void getProduct(BuildContext context, int id, String route) async {
     try {
       Response response = await get('$domain/get_product/$id');
       Map product = jsonDecode(response.body);
-      Navigator.pushReplacementNamed(context, '/Product_page', arguments: product);
+      if(route == '/buynow'){
+        Navigator.pushReplacementNamed(context, route, arguments: [product]);
+      }
+      else {
+        Navigator.pushReplacementNamed(context, route, arguments: product);
+      }
     }
     catch(e){
       SnackBar snackBar = getSnackBar("Please Check Your Internet Connection");
@@ -41,7 +46,7 @@ class _WishlistCardState extends State<WishlistCard> {
     final double price = widget.data.Price - widget.data.Discount;
     return InkWell(
       onTap: (){
-        getProduct(context, widget.data.Productid);
+        getProduct(context, widget.data.Productid, '/Product_page');
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*2, horizontal: Dimensions.boxWidth*5),
@@ -49,8 +54,7 @@ class _WishlistCardState extends State<WishlistCard> {
         height: Dimensions.boxHeight*30,
         width: Dimensions.boxWidth*100,
         decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Colors.pink[50],
+            shape: BoxShape.rectangle,            color: Colors.pink[50],
             borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(color: Colors.pink[900],offset: Offset(0,10),
@@ -196,7 +200,7 @@ class _WishlistCardState extends State<WishlistCard> {
                     ),
                     InkWell(
                       onTap: (){
-                        Navigator.pushNamed(context, '/buynow', arguments: [widget.data]);
+                        getProduct(context, widget.data.Productid, '/buynow');
                       },
                       child: Container(
                         padding: EdgeInsets.all(10.0),

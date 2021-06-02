@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:sparkcart/ApiCalls/getCartApi.dart';
 import 'package:sparkcart/Components/CartCard.dart';
+import 'package:sparkcart/Components/getSnackbar.dart';
 import 'package:sparkcart/Pages/BuyNowPage.dart';
 import '../dimensions.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
+import '../constants.dart';
 
 
 class CartPage extends StatefulWidget {
@@ -12,9 +16,26 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  Future<dynamic> data;
+  List data = [];
+  List ids = [];
   double total_price = 0;
   double calculate_price;
+  void getProduct(BuildContext context, int id) async {
+    try {
+      if(!ids.contains(id)){
+      Response response = await get('$domain/get_product/$id');
+      Map product = jsonDecode(response.body);
+        if(!data.contains(product) && !ids.contains(id)) {
+          data.add(product);
+        }
+        ids.add(id);
+      }
+    }
+    catch(e){
+      SnackBar snackBar = getSnackBar("Please Check Your Internet Connection");
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +106,7 @@ class _CartPageState extends State<CartPage> {
                           itemBuilder: (context,index){
                           var price = snapshot.data[index].Price - snapshot.data[index].Discount ;
                           calculate_price += snapshot.data[index].Quantity * price;
+                          getProduct(context, snapshot.data[index].Productid);
                           try {
                             SchedulerBinding.instance
                                 .addPostFrameCallback((_) =>
@@ -143,7 +165,7 @@ class _CartPageState extends State<CartPage> {
               flex: 1,
               child: InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => BuyNow()));
+                  Navigator.pushNamed(context, '/buynow',arguments: data);
                 },
                 child: Container(
                   padding: EdgeInsets.all(10.0),
