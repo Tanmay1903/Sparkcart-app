@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../dimensions.dart';
-import '../constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
 
@@ -15,6 +14,8 @@ class CustomTextFormField extends StatelessWidget {
   final FocusNode focusNode;
   final bool obscureText;
   final double containerHeight;
+  final double containerWidth;
+  final double circular;
   final int maxLines;
   final TextInputAction textInputAction;
 
@@ -30,6 +31,8 @@ class CustomTextFormField extends StatelessWidget {
     this.focusNode,
     this.obscureText:false,
     this.containerHeight: 9,
+    this.containerWidth: 90,
+    this.circular:5,
     this.maxLines: 1,
     this.textInputAction:TextInputAction.next,
 
@@ -38,14 +41,14 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.boxWidth * 5,
+            horizontal: Dimensions.boxWidth ,
             vertical: Dimensions.boxWidth *2),
         child: Container(
           height: Dimensions.boxHeight *containerHeight,
-          width: Dimensions.boxWidth * 90,
+          width: Dimensions.boxWidth * containerWidth,
           decoration: BoxDecoration(
             borderRadius:
-            BorderRadius.circular(Dimensions.boxHeight * 5),
+            BorderRadius.circular(Dimensions.boxHeight * circular),
             color: Colors.pink[100],
           ),
 

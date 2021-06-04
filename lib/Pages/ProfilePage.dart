@@ -120,28 +120,36 @@ class _ProfilePageState extends State<ProfilePage> {
               );
               }),
           CustomDivider(),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*2,horizontal: Dimensions.boxWidth*7),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'My Orders',
-                    style: TextStyle(
-                        fontSize: Dimensions.boxHeight*3,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink[800]
-                    )
-                ),
-                Text(
-                  '>',
-                    style: TextStyle(
-                        fontSize: Dimensions.boxHeight*3,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink[800]
-                    )
-                )
-              ],
+          InkWell(
+            onTap: (){
+              isLoggedIn?
+              Navigator.pushNamed(context, '/myorders')
+                  :
+              Navigator.pushNamed(context, '/login');
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*2,horizontal: Dimensions.boxWidth*7),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'My Orders',
+                      style: TextStyle(
+                          fontSize: Dimensions.boxHeight*3,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.pink[800]
+                      )
+                  ),
+                  Text(
+                    '>',
+                      style: TextStyle(
+                          fontSize: Dimensions.boxHeight*3,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.pink[800]
+                      )
+                  )
+                ],
+              ),
             ),
           ),
           CustomDivider(),

@@ -114,6 +114,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
           ),
           ListTile(
+            onTap: (){
+              isLoggedIn?
+                  Navigator.pushNamed(context, '/myorders')
+                  :
+              Navigator.pushNamed(context, '/login');
+            },
             contentPadding: EdgeInsets.symmetric(horizontal: 25.0),
             leading: Icon(
               Icons.dashboard,

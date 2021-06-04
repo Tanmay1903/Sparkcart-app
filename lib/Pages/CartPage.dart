@@ -3,7 +3,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:sparkcart/ApiCalls/getCartApi.dart';
 import 'package:sparkcart/Components/CartCard.dart';
 import 'package:sparkcart/Components/getSnackbar.dart';
-import 'package:sparkcart/Pages/BuyNowPage.dart';
 import '../dimensions.dart';
 import 'package:http/http.dart';
 import 'dart:convert';

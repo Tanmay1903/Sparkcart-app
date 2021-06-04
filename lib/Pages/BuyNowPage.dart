@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparkcart/ApiCalls/PlaceOrderApi.dart';
+import 'package:sparkcart/Components/AddressCard.dart';
 import 'package:sparkcart/Components/CustomDivider.dart';
 import 'package:sparkcart/Components/getSnackbar.dart';
 import 'package:sparkcart/Pages/OrderPlacedPage.dart';
@@ -24,6 +25,7 @@ class _BuyNowState extends State<BuyNow> {
   String payment_type = "Cash On Delivery";
   int quantity = 1;
   int total_quantity = 0;
+  bool onAddressAdd = false;
 
   check_user() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -32,10 +34,12 @@ class _BuyNowState extends State<BuyNow> {
     });
   }
   Widget getAddressCard(){
-    if((address.isNotEmpty && address[0] == "") || address.isEmpty) {
+    if((address.isNotEmpty && address[0] == "" && !onAddressAdd) || (address.isEmpty && !onAddressAdd)) {
       return InkWell(
         onTap: (){
-
+          setState(() {
+            onAddressAdd = true;
+          });
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -57,6 +61,9 @@ class _BuyNowState extends State<BuyNow> {
         ),
       );
     }
+    else if((address.isNotEmpty && address[0] == "" && onAddressAdd) || (address.isEmpty && onAddressAdd)){
+      return AddressCard(setonAddressAdd: setOnAddressAdd);
+    }
     else if(address.isNotEmpty){
       return Icon(
         Icons.check_circle_outline,
@@ -64,6 +71,11 @@ class _BuyNowState extends State<BuyNow> {
         size: Dimensions.boxHeight*5,
       );
     }
+  }
+  setOnAddressAdd(){
+    setState(() {
+      onAddressAdd = false;
+    });
   }
   @override
   void initState() {

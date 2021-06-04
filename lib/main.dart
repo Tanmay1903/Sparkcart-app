@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:sparkcart/Pages/BuyNowPage.dart';
 import 'package:sparkcart/Pages/LoginPage.dart';
+import 'package:sparkcart/Pages/MyOrdersPage.dart';
 import 'package:sparkcart/Pages/SearchByCategoryPage.dart';
 import 'package:sparkcart/Pages/SentimentAnalysisPage.dart';
 import 'Pages/Homepage.dart';
@@ -11,28 +12,35 @@ import 'constants.dart';
 import 'package:http/http.dart';
 import 'Pages/ProfilePage.dart';
 import './Components/getSnackbar.dart';
+import 'package:flutter/services.dart';
 
-void main() => runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'Sparkcart app',
-    theme: ThemeData(
-        primaryColor: Color(kdark),
-        canvasColor: Colors.pink[50],
-        backgroundColor: Color(klight),
-        accentColor: Color(klight)
-    ),
-  //initialRoute: '/home',
-  routes:{
-    '/' : (context) => Loading(),
-    '/home' : (context) => HomePage(),
-    '/login': (context) => LoginPage(),
-    '/Product_page': (context) => ProductPage(),
-    '/profile': (context) => ProfilePage(),
-    '/sentiment_analysis': (context) => SentimentAnalysis(),
-    '/searchcategory': (context) => SearchByCategoryPage(),
-    '/buynow' : (context) => BuyNow(),
-  }
-));
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Sparkcart app',
+      theme: ThemeData(
+          primaryColor: Color(kdark),
+          canvasColor: Colors.pink[50],
+          backgroundColor: Color(klight),
+          accentColor: Color(klight)
+      ),
+      //initialRoute: '/home',
+      routes: {
+        '/': (context) => Loading(),
+        '/home': (context) => HomePage(),
+        '/login': (context) => LoginPage(),
+        '/Product_page': (context) => ProductPage(),
+        '/profile': (context) => ProfilePage(),
+        '/sentiment_analysis': (context) => SentimentAnalysis(),
+        '/searchcategory': (context) => SearchByCategoryPage(),
+        '/buynow': (context) => BuyNow(),
+        '/myorders': (context) => MyOrdersPage(),
+      }
+  ));
+}
 
 class Loading extends StatefulWidget {
   @override
@@ -55,7 +63,7 @@ class _LoadingState extends State<Loading> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(seconds: 4),getProducts);
+    Future.delayed(Duration(seconds: 3),getProducts);
   }
   @override
   Widget build(BuildContext context) {
