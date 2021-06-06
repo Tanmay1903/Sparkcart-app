@@ -43,3 +43,22 @@ Future AddToWishlist(int Productid,int Quantity) async {
   final response = await request.close();
   return response.statusCode;
 }
+
+Future SaveForLater(int Productid) async {
+  final Map body = {
+    "Productid" : Productid
+  };
+  final client = HttpClient();
+  final request = await client.postUrl(Uri.parse(domain+"/saveforlater/"));
+  final all = await _storage.readAll();
+  request.cookies.add(Cookie("csrftoken",all['csfrtoken']));
+  request.cookies.add(Cookie("sessionid",all['sessionid']));
+
+  request.headers.set(HttpHeaders.contentTypeHeader, "application/json");
+  request.headers.set('x-csrftoken', all['csfrtoken']);
+  request.headers.set('referer', "http://159.65.157.59/");
+  request.add(utf8.encode(json.encode(body)));
+  final response = await request.close();
+  print(response.statusCode);
+  return response.statusCode;
+}

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:sparkcart/ApiCalls/addToCartApi.dart';
 import 'package:sparkcart/ApiCalls/removeFromCartApi.dart';
 import 'package:sparkcart/Components/getSnackbar.dart';
-import 'package:sparkcart/Pages/BuyNowPage.dart';
 import '../Components/Corousel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparkcart/Components/AppBarComponent.dart';
@@ -167,7 +166,10 @@ class _ProductPageState extends State<ProductPage> {
                             Icons.share,
                             color: Colors.pink[800],
                           ),
-                          onPressed: (){},
+                          onPressed: (){
+                            SnackBar snackBar = getSnackBar("Coming soon");
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          },
                         ),
                       ),
                     )
@@ -441,67 +443,55 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                 ),
-                FutureBuilder(
-                  future: data,
-                  builder: (BuildContext context, AsyncSnapshot snapshot){
-                    if(snapshot.data==204){
-                      return Container(
-                        child: Center(
-                          child: Text("No reviews available for this product"),
-                        ),
-                      );
-                    }
-                    else if (snapshot.data == null) {
-                      return Container(
-                        child: Center(
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*8),
-                              child: Center(child: CircularProgressIndicator(backgroundColor: Color(kdark)))
+                Container(
+                  height: Dimensions.boxHeight*50,
+                  child: FutureBuilder(
+                    future: data,
+                    builder: (BuildContext context, AsyncSnapshot snapshot){
+                      if(snapshot.data==204){
+                        return Container(
+                          child: Center(
+                            child: Text("No reviews available for this product"),
                           ),
-                        ),//
-                      );
-                    }
-                    else if(snapshot.data == "internet"){
-                      return Container(
-                        child: Center(
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*8),
-                              child:Text(
-                                "Reviews not available",style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: Dimensions.boxHeight * 2.5
-                              ),
-                              )
-                          ),
-                        ),//
+                        );
+                      }
+                      else if (snapshot.data == null) {
+                        return Container(
+                          child: Center(
+                            child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*8),
+                                child: Center(child: CircularProgressIndicator(backgroundColor: Color(kdark)))
+                            ),
+                          ),//
+                        );
+                      }
+                      else if(snapshot.data == "internet"){
+                        return Container(
+                          child: Center(
+                            child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*8),
+                                child:Text(
+                                  "Reviews not available",style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: Dimensions.boxHeight * 2.5
+                                ),
+                                )
+                            ),
+                          ),//
 
-                      );
-                    }
-                    else{
-                      return CustomScrollView(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        slivers: <Widget>[
-                          SliverList(
-                          delegate: SliverChildBuilderDelegate((BuildContext context,int index) {
-                            if (index>3) return null;
-                            return ReviewCardComponent(snapshot: snapshot, i: index);
-                          },
-                            childCount: (snapshot.data.length>3)? 3:snapshot.data.length,
-
-                          ),
-                        ),
-                        ]
-                      );
-//                        ListView.builder(
-//                          shrinkWrap: true,
-//                          itemCount: (snapshot.data.length>4) ? 4 : snapshot.data.length,
-//                          itemBuilder: (context,index){
-//                          return ReviewCardComponent(snapshot:snapshot,i:index);
-//                          }
-//                      );
-                    }
-                  },
+                        );
+                      }
+                      else{
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: (snapshot.data.length>4) ? 4 : snapshot.data.length,
+                            itemBuilder: (context,index){
+                              return ReviewCardComponent(snapshot:snapshot,i:index);
+                            }
+                        );
+                      }
+                    },
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

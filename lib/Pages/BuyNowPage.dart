@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sparkcart/ApiCalls/AddressApi.dart';
 import 'package:sparkcart/ApiCalls/PlaceOrderApi.dart';
 import 'package:sparkcart/Components/AddressCard.dart';
 import 'package:sparkcart/Components/CustomDivider.dart';
@@ -18,7 +19,8 @@ class BuyNow extends StatefulWidget {
 
 class _BuyNowState extends State<BuyNow> {
   List<dynamic> products = [];
-  List address = [];
+  Map address = {};
+  String selectedAddress;
   double total_price = 0.0;
   double discount = 0.0;
   double payable = 0.0;
@@ -27,14 +29,26 @@ class _BuyNowState extends State<BuyNow> {
   int total_quantity = 0;
   bool onAddressAdd = false;
 
-  check_user() async {
+  setAddress(Map temp) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      address = prefs.getStringList('address');
+      address = temp;
+      if(((selectedAddress == null) && (!address.containsKey('message'))) || ((selectedAddress == "") && (!address.containsKey('message')))) {
+        var key = address.keys.first;
+        selectedAddress = address[key];
+        prefs.setString("address", selectedAddress);
+      }
     });
   }
+
+  check_user() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    selectedAddress = prefs.getString('address');
+    await getAddresses(setAddress);
+  }
   Widget getAddressCard(){
-    if((address.isNotEmpty && address[0] == "" && !onAddressAdd) || (address.isEmpty && !onAddressAdd)) {
+    check_user();
+    if((address.isNotEmpty && address['0'] == "" && !onAddressAdd) || (address.isEmpty && !onAddressAdd)) {
       return InkWell(
         onTap: (){
           setState(() {
@@ -61,14 +75,56 @@ class _BuyNowState extends State<BuyNow> {
         ),
       );
     }
-    else if((address.isNotEmpty && address[0] == "" && onAddressAdd) || (address.isEmpty && onAddressAdd)){
+    else if((address.isNotEmpty && address['0'] == "" && onAddressAdd) || (address.isEmpty && onAddressAdd)){
       return AddressCard(setonAddressAdd: setOnAddressAdd);
     }
-    else if(address.isNotEmpty){
-      return Icon(
-        Icons.check_circle_outline,
-        color: Colors.pink[800],
-        size: Dimensions.boxHeight*5,
+    else if((address.isNotEmpty)&&(!address.containsKey("message"))){
+      return Container(
+        width: Dimensions.boxWidth*90,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Address:-',
+              style: TextStyle(
+                color: Colors.pink[800],
+                fontWeight: FontWeight.bold,
+                fontSize: Dimensions.boxHeight*2.5
+              ),
+            ),
+            SizedBox(height: Dimensions.boxHeight),
+            Text(
+              selectedAddress,
+              style: TextStyle(
+                  color: Colors.pink[900],
+                  fontSize: Dimensions.boxHeight*2.5
+              ),
+            ),
+            InkWell(
+              onTap: (){
+                Navigator.pushNamed(context, '/manageaddress');
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/25,vertical: MediaQuery.of(context).size.height/75),
+                margin: EdgeInsets.fromLTRB(0.0,10.0,10.0,0.0),
+                width: Dimensions.boxWidth*90,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.pink[800],
+                  borderRadius: BorderRadius.circular(Dimensions.boxHeight),
+                ),
+                child: Text(
+                  "Change or Add Address",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       );
     }
   }
@@ -85,6 +141,7 @@ class _BuyNowState extends State<BuyNow> {
   }
   @override
   Widget build(BuildContext context) {
+    //check_user();
     products = ModalRoute.of(context).settings.arguments;
     var counter = products.length > 2? 2 :products.length;
     List<Map> Productlist = [];
@@ -104,7 +161,7 @@ class _BuyNowState extends State<BuyNow> {
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/25,vertical: MediaQuery.of(context).size.height/50),
-                margin: EdgeInsets.all(10.0),
+                margin: EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     color: Colors.pink[50],
@@ -526,19 +583,22 @@ class _BuyNowState extends State<BuyNow> {
                               snackBar);
                         }
                         else {
-                          var status = await PlaceOrder(
-                              Productlist, total_price, payable, address[0],
-                              payment_type, total_quantity);
+                          if (total_price != 0.0) {
+                            var status = await PlaceOrder(
+                                Productlist, total_price, payable,
+                                selectedAddress,
+                                payment_type, total_quantity);
 
-                          if (status == 201) {
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => OrderPlacedPage()));
-                          }
-                          else {
-                            snackBar = getSnackBar(
-                                'There is some error placing your order. Please try again later!');
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                snackBar);
+                            if (status == 201) {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => OrderPlacedPage()));
+                            }
+                            else {
+                              snackBar = getSnackBar(
+                                  'There is some error placing your order. Please try again later!');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBar);
+                            }
                           }
                         }
                       },

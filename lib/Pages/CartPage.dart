@@ -164,7 +164,7 @@ class _CartPageState extends State<CartPage> {
               flex: 1,
               child: InkWell(
                 onTap: (){
-                  Navigator.pushNamed(context, '/buynow',arguments: data);
+                  Navigator.pushReplacementNamed(context, '/buynow',arguments: data);
                 },
                 child: Container(
                   padding: EdgeInsets.all(10.0),

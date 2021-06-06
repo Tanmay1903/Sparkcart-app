@@ -40,8 +40,16 @@ class _AddressCardState extends State<AddressCard> {
     state = _StateController.text;
     pincode = _PinController.text;
     if((address1.isNotEmpty) && (address2.isNotEmpty) && (state.isNotEmpty) && (pincode.isNotEmpty)){
-      address = [address1, address2, state, pincode].join(",");
+      address = [address1, address2, state, pincode].join(", ");
       var status = await AddAddressApi(address);
+      if(status == 201){
+        widget.setonAddressAdd();
+      }
+      else if(status == 409){
+        SnackBar snackBar = getSnackBar('You have already added 4 addresses. Please delete 1 before adding another');
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        widget.setonAddressAdd();
+      }
     }
     else{
       SnackBar snackBar = getSnackBar('Please Fill the Empty Fields');
@@ -77,11 +85,12 @@ class _AddressCardState extends State<AddressCard> {
               hintText: "Address Line 2"
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomTextFormField(
                   controller: _StateController,
                   containerHeight: 6,
-                  containerWidth: 42,
+                  containerWidth: 40,
                   circular: 2,
                   keyboardType: TextInputType.text,
                   onSaved: (String val) {
@@ -93,7 +102,7 @@ class _AddressCardState extends State<AddressCard> {
               CustomTextFormField(
                   controller: _PinController,
                   containerHeight: 6,
-                  containerWidth: 41,
+                  containerWidth: 40,
                   circular: 2,
                   keyboardType: TextInputType.number,
                   onSaved: (String val) {
@@ -108,17 +117,6 @@ class _AddressCardState extends State<AddressCard> {
             children: [
               InkWell(
                 onTap: AddAddress,
-                    //(){
-                  //print(address1 + address2 + state + pincode);
-//                  if((address1 != null) && (address2 != null) && (state != null) && (pincode != null)) {
-//                    address = [address1, address2, state, pincode].join(",");
-//                    print(address);
-//                  }
-//                  else{
-//                    SnackBar snackBar = getSnackBar('Please Fill the Empty Fields');
-//                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//                  }
-                //},
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/25,vertical: MediaQuery.of(context).size.height/100),
                   margin: EdgeInsets.fromLTRB(0.0,10.0,10.0,0.0),

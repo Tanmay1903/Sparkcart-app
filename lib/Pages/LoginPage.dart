@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
           prefs.setString('first_name', res['first_name']);
           prefs.setString('last_name', res['last_name']);
           prefs.setString('email', res['email']);
-          prefs.setStringList('address',[""]);
+          prefs.setString('address',"");
 
           SnackBar snackbar1 = getSnackBar("Login Successful");
           scaffoldKey.currentState.showSnackBar(snackbar1);

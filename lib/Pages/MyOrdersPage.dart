@@ -19,6 +19,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          height: Dimensions.boxHeight*86,
           child: FutureBuilder(
             future: getMyOrders(),
             builder: (BuildContext context, AsyncSnapshot snapshot){

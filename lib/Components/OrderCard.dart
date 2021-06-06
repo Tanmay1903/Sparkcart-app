@@ -23,7 +23,7 @@ class _OrderCardState extends State<OrderCard> {
       names.add(u["product_name"]);
     }
     return Container(
-      margin: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*2, horizontal: Dimensions.boxWidth*2),
+      margin: EdgeInsets.fromLTRB(Dimensions.boxWidth*2,Dimensions.boxHeight*2, Dimensions.boxWidth*2,Dimensions.boxHeight),
       padding: EdgeInsets.all(10.0),
       height: Dimensions.boxHeight*25,
       width: Dimensions.boxWidth*100,
@@ -32,8 +32,8 @@ class _OrderCardState extends State<OrderCard> {
           color: Colors.pink[50],
           borderRadius: BorderRadius.circular(20.0),
           boxShadow: [
-            BoxShadow(color: Colors.pink[900],offset: Offset(0,10),
-                blurRadius: 10
+            BoxShadow(color: Colors.pink[900],offset: Offset(0,5),
+                blurRadius: 3
             ),
           ]
       ),
@@ -82,16 +82,20 @@ class _OrderCardState extends State<OrderCard> {
                   ),
                   SizedBox(height: Dimensions.boxHeight*2),
                   Container(
+                    width: Dimensions.boxWidth*60,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: names.map((name) {
-                      return Text(
-                      name,
-                      style: TextStyle(
-                          color: Colors.pink[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: Dimensions.boxHeight*2.3
-                      ),
-                    );}
+                      return Container(
+                        child: Text(
+                        name,
+                        style: TextStyle(
+                            color: Colors.pink[800],
+                            fontWeight: FontWeight.bold,
+                            fontSize: Dimensions.boxHeight*2.3
+                        ),
+                    ),
+                      );}
                     ).toList(),
                     ),
                   )

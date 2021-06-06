@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparkcart/Components/CustomDivider.dart';
+import 'package:sparkcart/Components/getSnackbar.dart';
 import 'package:sparkcart/dimensions.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -153,28 +154,34 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           CustomDivider(),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*2,horizontal: Dimensions.boxWidth*7),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                    'Add Additional Information',
-                    style: TextStyle(
-                        fontSize: Dimensions.boxHeight*3,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink[800]
-                    )
-                ),
-                Text(
-                    '>',
-                    style: TextStyle(
-                        fontSize: Dimensions.boxHeight*3,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink[800]
-                    )
-                )
-              ],
+          InkWell(
+            onTap: (){
+              SnackBar snackBar = getSnackBar("Coming soon");
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: Dimensions.boxHeight*2,horizontal: Dimensions.boxWidth*7),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                      'Add Additional Information',
+                      style: TextStyle(
+                          fontSize: Dimensions.boxHeight*3,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.pink[800]
+                      )
+                  ),
+                  Text(
+                      '>',
+                      style: TextStyle(
+                          fontSize: Dimensions.boxHeight*3,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.pink[800]
+                      )
+                  )
+                ],
+              ),
             ),
           ),
           CustomDivider()

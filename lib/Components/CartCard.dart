@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sparkcart/ApiCalls/addToCartApi.dart';
 import 'package:sparkcart/ApiCalls/getCartApi.dart';
 import 'package:sparkcart/ApiCalls/removeFromCartApi.dart';
 import 'package:sparkcart/Components/Corousel.dart';
@@ -190,33 +191,50 @@ class _CartCardState extends State<CartCard> {
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(10.0),
-                  width: Dimensions.boxWidth*43,
-                  height: Dimensions.boxHeight*5.5,
-                  decoration: BoxDecoration(
-                      color: Colors.pink[800],
-                      borderRadius: BorderRadius.circular(Dimensions.boxHeight * 5)
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.archive,
-                        color: Colors.white,
-                        size: Dimensions.boxHeight*2.5,
-                      ),
-                      SizedBox(width: Dimensions.boxWidth),
-                      Text(
-                        'Save for Later',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.values[4],
-                            letterSpacing: 2,
-                            fontSize: Dimensions.boxHeight*2
+                InkWell(
+                  onTap: () async {
+                    var status = await SaveForLater(widget.data.Productid);
+                    SnackBar snackbar;
+                    if(status == 200){
+                      snackbar = getSnackBar('Product moved to Wishlist');
+                    }
+                    else if(status == 409){
+                      snackbar = getSnackBar('Product already moved!');
+                    }
+                    else{
+                      snackbar = getSnackBar('Some Unknown Error from backend');
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CartPage()));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    width: Dimensions.boxWidth*43,
+                    height: Dimensions.boxHeight*5.5,
+                    decoration: BoxDecoration(
+                        color: Colors.pink[800],
+                        borderRadius: BorderRadius.circular(Dimensions.boxHeight * 5)
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.archive,
+                          color: Colors.white,
+                          size: Dimensions.boxHeight*2.5,
                         ),
-                      ),
-                    ],
+                        SizedBox(width: Dimensions.boxWidth),
+                        Text(
+                          'Save for Later',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.values[4],
+                              letterSpacing: 2,
+                              fontSize: Dimensions.boxHeight*2
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

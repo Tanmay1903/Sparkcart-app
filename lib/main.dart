@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:sparkcart/Pages/BuyNowPage.dart';
 import 'package:sparkcart/Pages/LoginPage.dart';
+import 'package:sparkcart/Pages/ManageAddressPage.dart';
 import 'package:sparkcart/Pages/MyOrdersPage.dart';
 import 'package:sparkcart/Pages/SearchByCategoryPage.dart';
 import 'package:sparkcart/Pages/SentimentAnalysisPage.dart';
@@ -38,6 +39,7 @@ void main() {
         '/searchcategory': (context) => SearchByCategoryPage(),
         '/buynow': (context) => BuyNow(),
         '/myorders': (context) => MyOrdersPage(),
+        '/manageaddress': (context) => ManageAddressesPage()
       }
   ));
 }

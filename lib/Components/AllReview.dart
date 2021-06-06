@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sparkcart/Components/AppBarComponent.dart';
 import '../constants.dart';
 import '../dimensions.dart';
 import 'package:sparkcart/Components/ReviewCard.dart';
@@ -11,37 +12,17 @@ class AllReview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.mic),
-              onPressed: (){},
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0.0,0.0,10.0,0.0),
-              child: IconButton(
-                  onPressed: (){},
-                  icon: Icon(Icons.shopping_cart)
-              ),
-            )
-          ]
+        title: Text(""
+            "Reviews"
+        ),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 10.0),
+          height: Dimensions.boxHeight*85,
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                child: Text(
-                  "Reviews",
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.pink[800],
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
-              ),
               FutureBuilder(
                 future: reviews,
                 builder: (BuildContext context, AsyncSnapshot snapshot){

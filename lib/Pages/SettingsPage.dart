@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sparkcart/Components/getSnackbar.dart';
 import 'package:sparkcart/Pages/RegisterPage.dart';
 import 'package:sparkcart/dimensions.dart';
 
@@ -8,6 +10,20 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  bool isLoggedIn = false;
+  check_user() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isLoggedIn = prefs.getBool('isLogin') != null ? prefs.getBool('isLogin') : false ;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    check_user();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +57,10 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             ListTile(
+              onTap: (){
+                SnackBar snackBar = getSnackBar("Coming soon");
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
               contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
               leading: Icon(
                 Icons.edit,
@@ -56,6 +76,12 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             ListTile(
+              onTap: (){
+                isLoggedIn?
+                Navigator.pushNamed(context, '/manageaddress')
+                    :
+                Navigator.pushNamed(context, '/login');
+              },
               contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
               leading: Icon(
                 Icons.assignment,
